@@ -1,6 +1,6 @@
-import { Button, Paper, TextField } from '@material-ui/core';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { Button, Paper, TextField, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from "./styles";
 import { createPost, updatePost } from "../../actions/posts";
@@ -16,9 +16,13 @@ const Form = ({ currentId, setCurrentId}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
- 
+  const post = useSelector((state) => currentId ? state.posts.find((post) => post._id === currentId ) : null);
 
-
+  useEffect(() => {
+    if (post) {
+      setPostData(post);
+    }
+  } , [post])
 
 
   // convert file to base64
@@ -43,15 +47,26 @@ const Form = ({ currentId, setCurrentId}) => {
     } else {
       dispatch(createPost(postData));
     }
-    
+    //clear form
+    clear();
   };
 
   // handle clear form
-  const clear = () => {};
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      description: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
 
   return (
     <div>
       <Paper className={classes.paper}>
+        <Typography align='center' variant='h6'>{`${currentId ? 'Editing' : 'Creating'} a Snap`}</Typography>
         <form
           noValidate
           className={`${classes.form}`}
