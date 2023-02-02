@@ -4,28 +4,31 @@ import moment from 'moment';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useDispatch } from 'react-redux';
 
 import useStyles from './styles';
+import { deletePost } from '../../../actions/posts';
 
-const Post = ({post, setCurrentId}) => {
+const Post = ({ post, setCurrentId }) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
     
     return (
         <Card className={classes.card}> 
-            <CardMedia className={classes.media} component='image' alt='player' image={post.selectedFile}  title={post.title} />
+            <CardMedia className={classes.media} alt='player' image={post.selectedFile}  title={post.title} />
             <div className={classes.overlay}>
                 <Typography variant='h6' > {post.creator}</Typography>
                 <Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
             </div>
             <div className={classes.overlay2}>
-                <Tooltip title='edit'>
+                <Tooltip  title='edit' arrow>
                     <Button
                         style={{ color: 'white' }}
                         size='small'
                         onClick={() => { 
                         setCurrentId(post._id)
                     }}>
-                        <MoreHorizIcon fontSize='default' />
+                        <MoreHorizIcon fontSize='medium' />
                     </Button>
                 </Tooltip>
             </div>
@@ -46,7 +49,10 @@ const Post = ({post, setCurrentId}) => {
                     Like
                     {post.likeCount}
                 </Button>
-                <Button size='small' color='primary' onClick={() => { }}>
+                <Button
+                    size='small'
+                    color='primary'
+                    onClick={() => { dispatch(deletePost(post._id)) }}>
                     <DeleteIcon fontSize='small' />
                     Delete
                 </Button>

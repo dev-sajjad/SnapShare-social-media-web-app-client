@@ -33,7 +33,6 @@ const Form = ({ currentId, setCurrentId}) => {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
         setPostData({ ...postData, selectedFile: reader.result });
-        console.log(reader.result);
       };
     }
   };
@@ -49,6 +48,8 @@ const Form = ({ currentId, setCurrentId}) => {
     }
     //clear form
     clear();
+    // reset file input field
+    e.target.file.value = null;
   };
 
   // handle clear form
@@ -66,7 +67,7 @@ const Form = ({ currentId, setCurrentId}) => {
   return (
     <div>
       <Paper className={classes.paper}>
-        <Typography align='center' variant='h6'>{`${currentId ? 'Editing' : 'Creating'} a Snap`}</Typography>
+        <Typography align='center' variant='h6'>{`${currentId ? `Editing ${post.creator}` : 'Creating'}  Snap`}</Typography>
         <form
           noValidate
           className={`${classes.form}`}
@@ -117,6 +118,7 @@ const Form = ({ currentId, setCurrentId}) => {
           ></TextField>
           <TextField
             type="file"
+            name= "file"
             className={classes.fileInput}
             InputProps={{ disableUnderline: true }}
             fullWidth

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 
 import { getPosts } from './actions/posts';
 import Posts from "./components/Posts/Posts";
@@ -17,7 +17,7 @@ const App = () => {
 
     useEffect(() => {
         dispatch(getPosts());
-    }, [dispatch]);
+    }, [currentId, dispatch]);
 
 
     return (
