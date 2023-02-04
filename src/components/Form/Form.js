@@ -114,7 +114,7 @@ const Form = ({ currentId, setCurrentId}) => {
             margin="normal"
             fullWidth
             value={postData.tags}
-            onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+            onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })}
           ></TextField>
           <TextField
             type="file"
