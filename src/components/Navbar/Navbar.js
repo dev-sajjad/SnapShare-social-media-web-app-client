@@ -1,33 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { onAuthStateChanged } from 'firebase/auth';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 
 import { signOutUser } from '../../actions/auth';
 import useStyles from './styles';
 import memories from '../../images/memories.png';
-import { auth } from '../../firebase/firebase.config';
-
 
 const Navbar = () => {
-  const [user, setUser] = useState({});
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  //get current user
+  const { currentUser } = useSelector((state) => state.auth);
 
-// monitor if user is signed in
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user)
-      return () => unsubscribe();
-    })
-  }, [])
-
-
+// sign out user
   const handleSignOut = () => {
     dispatch(signOutUser(navigate));
   }
@@ -47,10 +36,10 @@ const Navbar = () => {
           />
             </div>
             <Toolbar className={classes.toolbar}>
-                {user ? (
+                {currentUser ? (
                     <div className={classes.profile}>
-                        <Avatar className={classes.purple} alt={user?.displayName} src={user?.photoURL} >{user?.displayName?.charAt(0)}</Avatar>
-                        <Typography className={classes.userName} variant="h6" >{user?.displayName}</Typography>
+                        <Avatar className={classes.purple} alt={currentUser?.displayName} src={currentUser?.photoURL} >{currentUser?.displayName?.charAt(0)}</Avatar>
+                        <Typography className={classes.userName} variant="h6" >{currentUser?.displayName}</Typography>
                         <Button className={classes.logout} onClick={handleSignOut} color="secondary" variant='contained' >Logout</Button>
                 </div>
                 ) : (

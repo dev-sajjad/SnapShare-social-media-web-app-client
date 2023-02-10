@@ -9,5 +9,8 @@ export const USER_SIGN_IN = "USER_SIGN_IN";
 export const USER_SIGN_IN_FAIL = "USER_SIGN_IN_FAIL";
 export const USER_SIGN_OUT = "USER_SIGN_OUT"
 
+export const AUTH_USER = "AUTH_USER";
+
+
 
 

@@ -1,3 +1,4 @@
+import { toast } from 'react-hot-toast';
 import * as api from '../api';
 import * as actions from '../constants/actionTypes';
 
@@ -10,7 +11,7 @@ export const getPosts = () => async (dispatch) => {
 
         dispatch({ type: actions.FETCH_ALL, payload: data });
     } catch (error) {
-        console.log(error.message)
+        toast.error(error.code)
     }
    
 }
@@ -22,11 +23,9 @@ export const createPost = (post) => async (dispatch) => {
         const response = await api.createPost(post);
         const data = response.data;
 
-        console.log(data);
-
         dispatch({ type: actions.CREATE , payload: data });
     } catch (error) {
-        console.log(error.message)
+        toast.error(error.code);
     }
 }
 
@@ -37,7 +36,7 @@ export const updatePost = (id, post) => async (dispatch) => {
         
         dispatch({ type: actions.UPDATE , payload: data });
     } catch (error) {
-        console.log(error.message);
+        toast.error(error.code);
     }
 }
 
@@ -48,7 +47,7 @@ export const deletePost = (id) => async (dispatch) => {
 
         dispatch({ type: actions.DELETE, payload: { id, data} });
     } catch (error) {
-        console.log(error.message);
+         toast.error(error.code);
     }
 }
 
@@ -59,6 +58,6 @@ export const likePost = (id) => async (dispatch) => {
 
         dispatch({ type: actions.UPDATE, payload: data });
     } catch (error) {
-        console.log(error.message);
+         toast.error(error.code);
     }
 }

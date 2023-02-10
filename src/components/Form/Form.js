@@ -7,7 +7,6 @@ import { createPost, updatePost } from "../../actions/posts";
 
 const Form = ({ currentId, setCurrentId}) => {
   const [postData, setPostData] = useState({
-    creator: "",
     title: "",
     description: "",
     tags: "",
@@ -16,7 +15,8 @@ const Form = ({ currentId, setCurrentId}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const post = useSelector((state) => currentId ? state.posts.find((post) => post._id === currentId ) : null);
+  const post = useSelector((state) => currentId ? state.posts.find((post) => post._id === currentId) : null);
+  const {currentUser} = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (post) {
@@ -42,9 +42,9 @@ const Form = ({ currentId, setCurrentId}) => {
     e.preventDefault();
 
     if (currentId) {
-      dispatch(updatePost(currentId, postData))
+      dispatch(updatePost(currentId, {...postData, name: currentUser?.displayName, creator: currentUser?.email }));
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost( {...postData, name: currentUser?.displayName, creator: currentUser?.email }));
     }
     //clear form
     clear();
@@ -56,7 +56,6 @@ const Form = ({ currentId, setCurrentId}) => {
   const clear = () => {
     setCurrentId(null);
     setPostData({
-      creator: "",
       title: "",
       description: "",
       tags: "",
@@ -67,24 +66,13 @@ const Form = ({ currentId, setCurrentId}) => {
   return (
     <div>
       <Paper className={classes.paper}>
-        <Typography align='center' variant='h6'>{`${currentId ? `Editing ${post.creator}` : 'Creating'}  Snap`}</Typography>
+        <Typography align='center' variant='h6'>{`${currentId ? `Editing ${currentUser?.displayName}` : 'Creating'}  Snap`}</Typography>
         <form
           noValidate
           className={`${classes.form}`}
           autoComplete="false"
           onSubmit={handleSubmit}
         >
-          <TextField
-            name="creator"
-            variant="outlined"
-            label="Creator"
-            fullWidth
-            margin="normal"
-            value={postData.creator}
-            onChange={(e) =>
-              setPostData({ ...postData, creator: e.target.value })
-            }
-          ></TextField>
           <TextField
             name="title"
             variant="outlined"
