@@ -63,10 +63,21 @@ const Form = ({ currentId, setCurrentId}) => {
     });
   };
 
+  if (!currentUser?.email) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant='h6' align='center' >
+          Please Sign In to create your own snap and like other's snap!
+        </Typography>
+      </Paper>
+    )
+  }
+
+
   return (
     <div>
       <Paper className={classes.paper}>
-        <Typography align='center' variant='h6'>{`${currentId ? `Editing ${currentUser?.displayName}` : 'Creating'}  Snap`}</Typography>
+        <Typography align='center' variant='h6'>{`${currentId ? `Editing ${currentUser?.displayName?.split(' ')[0]}'s` : 'Creating a'}  Snap`}</Typography>
         <form
           noValidate
           className={`${classes.form}`}

@@ -58,6 +58,8 @@ export const likePost = (id) => async (dispatch) => {
 
         dispatch({ type: actions.UPDATE, payload: data });
     } catch (error) {
-         toast.error(error.code);
+        if (error) {
+            toast.error('Please SignIn to like a post!');
+        }
     }
 }

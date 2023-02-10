@@ -1,17 +1,39 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Tooltip, Typography } from '@material-ui/core';
 import React from 'react';
 import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+
+//icons
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useDispatch } from 'react-redux';
 
-import useStyles from './styles';
 import { deletePost, likePost } from '../../../actions/posts';
+import useStyles from './styles';
 
 const Post = ({ post, setCurrentId }) => {
     const dispatch = useDispatch();
-    const classes = useStyles();
+  const classes = useStyles();
+  const { currentUser } = useSelector((state) => state.auth);
+  
+  // manage posts like
+  const Likes = () => {
+    if (post.likes.length > 0) {
+      return post.likes.find((like) => like === currentUser?.uid) ? (
+        <>
+          <ThumbUpAltIcon fontSize="medium" />
+          {post.likes.length > 2
+            ? `You and ${post.likes.length - 1} others`
+            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+        </>
+      ) : (
+        <>
+          <ThumbUpOutlinedIcon fontSize="medium" marginRight = "10px" /> {post.likes.length} {post.likes.length > 1 ? "likes" : "like"}
+        </>
+      );
+    }
+  }
     
     return (
       <Card className={classes.card}>
@@ -58,15 +80,15 @@ const Post = ({ post, setCurrentId }) => {
             className={classes.button}
             size="small"
             color="primary"
-            startIcon={<ThumbUpAltIcon fontSize="medium" />}
+            fontFamily= "normal"
             onClick={() => {
               dispatch(likePost(post._id));
             }}
           >
-            Like {post.likes.length}
+            <Likes />
           </Button>
-                <Button
-                    className={classes.button}
+            <Button
+            className={classes.button}
             size="small"
             color="primary"
             startIcon={<DeleteIcon fontSize="medium" />}
