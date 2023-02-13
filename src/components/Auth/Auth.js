@@ -45,7 +45,6 @@ const Auth = () => {
         } else {
             dispatch(signIn(formData, navigate));
         }
-
     }
 
     //handle form input change

@@ -76,8 +76,8 @@ const Form = ({ currentId, setCurrentId}) => {
 
   return (
     <div>
-      <Paper className={classes.paper}>
-        <Typography align='center' variant='h6'>{`${currentId ? `Editing ${currentUser?.displayName?.split(' ')[0]}'s` : 'Creating a'}  Snap`}</Typography>
+      <Paper className={classes.paper} elevation={6} >
+        <Typography align='center'  variant='h6'>{`${currentId ? `Editing ${currentUser?.displayName?.split(' ')[0]}'s` : 'Creating a'}  Snap`}</Typography>
         <form
           noValidate
           className={`${classes.form}`}

@@ -4,16 +4,26 @@ import * as actions from '../constants/actionTypes';
 
 // Action Creators
 // get posts
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
     try {
-        const response = await api.fetchPosts();
-        const data = response.data;
+        const {data } = await api.fetchPosts(page);
 
         dispatch({ type: actions.FETCH_ALL, payload: data });
     } catch (error) {
         toast.error(error.code)
     }
    
+}
+
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+    try {
+        const { data } = await api.fetchPostsBySearch(searchQuery);
+    
+        dispatch({ type: actions.FETCH_POSTS_BY_SEARCH, payload: data });
+        
+    } catch (error) {
+        toast.error(error.code)
+    }
 }
 
 
@@ -59,7 +69,7 @@ export const likePost = (id) => async (dispatch) => {
         dispatch({ type: actions.UPDATE, payload: data });
     } catch (error) {
         if (error) {
-            toast.error('Please SignIn to like a post!');
+            toast.error('Please Sign In to like a Snap!');
         }
     }
 }

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import jwt_decode from "jwt-decode";
+
 
 import { signOutUser } from '../../actions/auth';
 import useStyles from './styles';
@@ -17,9 +19,19 @@ const Navbar = () => {
   const { currentUser } = useSelector((state) => state.auth);
 
 // sign out user
-  const handleSignOut = () => {
-    dispatch(signOutUser(navigate));
-  }
+  const handleSignOut = useCallback(() => {
+    dispatch(signOutUser(navigate))
+  }, [dispatch, navigate]);
+
+
+  useEffect(() => {
+    const token = localStorage.getItem("social-token");
+
+    if (token) {
+      const decodedToken = jwt_decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) handleSignOut();
+    }
+  },[handleSignOut])
 
 
     return (

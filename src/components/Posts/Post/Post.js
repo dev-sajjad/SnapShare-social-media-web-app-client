@@ -19,7 +19,7 @@ const Post = ({ post, setCurrentId }) => {
   
   // manage posts like
   const Likes = () => {
-    if (post.likes.length > 0) {
+    if (post.likes.length >= 0) {
       return post.likes.find((like) => like === currentUser?.uid) ? (
         <>
           <ThumbUpAltIcon fontSize="medium" />
@@ -36,7 +36,7 @@ const Post = ({ post, setCurrentId }) => {
   }
     
     return (
-      <Card className={classes.card}>
+      <Card className={classes.card} raised elevation={6}>
         <CardMedia
           className={classes.media}
           alt="player"
@@ -49,19 +49,23 @@ const Post = ({ post, setCurrentId }) => {
             {moment(post.createdAt).fromNow()}
           </Typography>
         </div>
-        <div className={classes.overlay2}>
-          <Tooltip title="edit" arrow>
-            <Button
-              style={{ color: "white" }}
-              size="small"
-              onClick={() => {
-                setCurrentId(post._id);
-              }}
-            >
-              <MoreHorizIcon fontSize="medium" />
-            </Button>
-          </Tooltip>
-        </div>
+        
+        {currentUser?.email === post.creator && (
+          <div className={classes.overlay2}>
+            <Tooltip title="edit" arrow>
+              <Button
+                style={{ color: "white" }}
+                size="small"
+                onClick={() => {
+                  setCurrentId(post._id);
+                }}
+              >
+                <MoreHorizIcon fontSize="medium" />
+              </Button>
+            </Tooltip>
+          </div>
+        )}
+
         <div className={classes.details}>
           <Typography variant="body2" color="textSecondary">
             {post.tags.map((tag) => `#${tag} `)}
@@ -80,24 +84,27 @@ const Post = ({ post, setCurrentId }) => {
             className={classes.button}
             size="small"
             color="primary"
-            fontFamily= "normal"
+            fontFamily="normal"
             onClick={() => {
               dispatch(likePost(post._id));
             }}
           >
             <Likes />
           </Button>
+
+          {currentUser?.email === post.creator && (
             <Button
-            className={classes.button}
-            size="small"
-            color="primary"
-            startIcon={<DeleteIcon fontSize="medium" />}
-            onClick={() => {
-              dispatch(deletePost(post._id));
-            }}
-          >
-            Delete
-          </Button>
+              className={classes.button}
+              size="small"
+              color="primary"
+              startIcon={<DeleteIcon fontSize="medium" />}
+              onClick={() => {
+                dispatch(deletePost(post._id));
+              }}
+            >
+              Delete
+            </Button>
+          )}
         </CardActions>
       </Card>
     );
