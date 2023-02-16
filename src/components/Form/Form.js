@@ -15,7 +15,7 @@ const Form = ({ currentId, setCurrentId}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const post = useSelector((state) => currentId ? state.posts.find((post) => post._id === currentId) : null);
+  const post = useSelector((state) => currentId ? state.posts.posts.find((post) => post._id === currentId) : null);
   const {currentUser} = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const Form = ({ currentId, setCurrentId}) => {
 
   if (!currentUser?.email) {
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} elevation={6}>
         <Typography variant='h6' align='center' >
           Please Sign In to create your own snap and like other's snap!
         </Typography>

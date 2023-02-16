@@ -8,12 +8,15 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { CardActionArea } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import { deletePost, likePost } from '../../../actions/posts';
 import useStyles from './styles';
 
 const Post = ({ post, setCurrentId }) => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const classes = useStyles();
   const { currentUser } = useSelector((state) => state.auth);
   
@@ -34,7 +37,9 @@ const Post = ({ post, setCurrentId }) => {
       );
     }
   }
-    
+  
+  const openPost = () => navigate(`/posts/${post._id}`);
+
     return (
       <Card className={classes.card} raised elevation={6}>
         <CardMedia
@@ -49,7 +54,7 @@ const Post = ({ post, setCurrentId }) => {
             {moment(post.createdAt).fromNow()}
           </Typography>
         </div>
-        
+
         {currentUser?.email === post.creator && (
           <div className={classes.overlay2}>
             <Tooltip title="edit" arrow>
@@ -65,20 +70,21 @@ const Post = ({ post, setCurrentId }) => {
             </Tooltip>
           </div>
         )}
-
-        <div className={classes.details}>
-          <Typography variant="body2" color="textSecondary">
-            {post.tags.map((tag) => `#${tag} `)}
-          </Typography>
-        </div>
-        <CardContent>
-          <Typography className={classes.title} variant="h5" gutterBottom>
-            {post.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {post.description}
-          </Typography>
-        </CardContent>
+        <CardActionArea className={classes.cardAction} onClick={openPost}>
+          <div className={classes.details}>
+            <Typography variant="body2" color="textSecondary">
+              {post.tags.map((tag) => `#${tag} `)}
+            </Typography>
+          </div>
+          <CardContent>
+            <Typography className={classes.title} variant="h5" gutterBottom>
+              {post?.title}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {post.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
         <CardActions className={classes.cardActions}>
           <Button
             className={classes.button}
@@ -96,7 +102,7 @@ const Post = ({ post, setCurrentId }) => {
             <Button
               className={classes.button}
               size="small"
-              color="primary"
+              style={{ color: "red" }}
               startIcon={<DeleteIcon fontSize="medium" />}
               onClick={() => {
                 dispatch(deletePost(post._id));

@@ -8,7 +8,8 @@ import jwt_decode from "jwt-decode";
 
 import { signOutUser } from '../../actions/auth';
 import useStyles from './styles';
-import memories from '../../images/memories.png';
+import snapShare from '../../images/snapshare.png';
+
 
 const Navbar = () => {
   const classes = useStyles();
@@ -36,17 +37,9 @@ const Navbar = () => {
 
     return (
       <AppBar className={classes.appBar} position="static" color="inherit">
-        <div className={classes.brandContainer}>
-          <Typography component={ Link } to="/" className={classes.heading} variant="h3" align="center">
-            SnapShare
-          </Typography>
-          <img
-            className={classes.image}
-            src={memories}
-            alt="memories"
-            height={60}
-          />
-            </div>
+          <Link to="/" className={classes.brandContainer}>
+              <img component={Link} to="/" src={snapShare} alt="icon" height="55px" />
+        </Link>
             <Toolbar className={classes.toolbar}>
                 {currentUser ? (
                     <div className={classes.profile}>

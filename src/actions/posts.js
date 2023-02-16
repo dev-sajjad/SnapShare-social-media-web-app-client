@@ -4,11 +4,25 @@ import * as actions from '../constants/actionTypes';
 
 // Action Creators
 // get posts
+export const getPost = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: actions.START_LOADING})
+        const { data } = await api.fetchPost(id);
+
+        dispatch({ type: actions.FETCH_POST, payload: data });
+        dispatch({type: actions.END_LOADING})
+    } catch (error) {
+        toast.error(error.code)
+    }
+   
+}
 export const getPosts = (page) => async (dispatch) => {
     try {
-        const {data } = await api.fetchPosts(page);
+        dispatch({ type: actions.START_LOADING})
+        const { data } = await api.fetchPosts(page);
 
         dispatch({ type: actions.FETCH_ALL, payload: data });
+        dispatch({type: actions.END_LOADING})
     } catch (error) {
         toast.error(error.code)
     }
@@ -17,9 +31,11 @@ export const getPosts = (page) => async (dispatch) => {
 
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     try {
+         dispatch({ type: actions.START_LOADING });
         const { data } = await api.fetchPostsBySearch(searchQuery);
     
         dispatch({ type: actions.FETCH_POSTS_BY_SEARCH, payload: data });
+         dispatch({ type: actions.END_LOADING });
         
     } catch (error) {
         toast.error(error.code)
@@ -71,5 +87,17 @@ export const likePost = (id) => async (dispatch) => {
         if (error) {
             toast.error('Please Sign In to like a Snap!');
         }
+    }
+}
+
+// comment on a post
+export const commentOnPost = (value, id) => async (dispatch) => {
+    try {
+        const { data } = await api.comment(value, id);
+
+        dispatch({ type: actions.COMMENT, payload: data });
+        return data.comments;
+    } catch (error) {
+        toast.error(error.code);
     }
 }
