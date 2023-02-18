@@ -9,7 +9,7 @@ import jwt_decode from "jwt-decode";
 import { signOutUser } from '../../actions/auth';
 import useStyles from './styles';
 import snapShare from '../../images/snapshare.png';
-
+import snapLogo from '../../images/snapLogo.png';
 
 const Navbar = () => {
   const classes = useStyles();
@@ -38,6 +38,7 @@ const Navbar = () => {
     return (
       <AppBar className={classes.appBar} position="static" color="inherit">
           <Link to="/" className={classes.brandContainer}>
+              <img className={classes.idmage} src={snapLogo} alt="icon" height="45px" />
               <img component={Link} to="/" src={snapShare} alt="icon" height="55px" />
         </Link>
             <Toolbar className={classes.toolbar}>

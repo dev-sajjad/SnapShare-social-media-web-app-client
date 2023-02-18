@@ -1,8 +1,9 @@
-# Getting Started with Create React App
+# SnapShare Social Media Web App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live Website Link here: [SnapShare](https://snapshare-social.web.app/).
 
-## Available Scripts
+## Installed Npm Packages
+
 
 In the project directory, you can run:
 

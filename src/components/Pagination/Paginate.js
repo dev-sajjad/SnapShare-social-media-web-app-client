@@ -21,6 +21,7 @@ const Paginate = ({ page }) => {
         <Pagination
           count={numberOfPages}
           page={Number(page) || 1}
+          variant = "outlined"
           size="medium"
           shape='circular'
           color="primary"

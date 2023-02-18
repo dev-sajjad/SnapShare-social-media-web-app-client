@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import useStyles from "./styles";
 import { createPost, updatePost } from "../../actions/posts";
+import { useNavigate } from 'react-router-dom';
 
 const Form = ({ currentId, setCurrentId}) => {
   const [postData, setPostData] = useState({
@@ -14,6 +15,7 @@ const Form = ({ currentId, setCurrentId}) => {
   });
   const classes = useStyles();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const post = useSelector((state) => currentId ? state.posts.posts.find((post) => post._id === currentId) : null);
   const {currentUser} = useSelector((state) => state.auth);
@@ -25,7 +27,7 @@ const Form = ({ currentId, setCurrentId}) => {
   } , [post])
 
 
-  // convert file to base64
+  // convert img file to base64 url
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -44,7 +46,8 @@ const Form = ({ currentId, setCurrentId}) => {
     if (currentId) {
       dispatch(updatePost(currentId, {...postData, name: currentUser?.displayName, creator: currentUser?.email }));
     } else {
-      dispatch(createPost( {...postData, name: currentUser?.displayName, creator: currentUser?.email }));
+      dispatch(createPost({ ...postData, name: currentUser?.displayName, creator: currentUser?.email }));
+      navigate("/");
     }
     //clear form
     clear();

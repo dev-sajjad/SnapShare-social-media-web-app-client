@@ -78,10 +78,11 @@ const Post = ({ post, setCurrentId }) => {
           </div>
           <CardContent>
             <Typography className={classes.title} variant="h5" gutterBottom>
-              {post?.title}
+              {post?.title.slice(0, 17) }
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {post.description}
+            <Typography variant="body2" align='left' color="textSecondary" component="p">
+              {post.description.slice(0,110) + "..."}
+
             </Typography>
           </CardContent>
         </CardActionArea>

@@ -28,7 +28,6 @@ const Home = () => {
   const page = query.get("page") || 1;
 
   // handle search field
-  const serachQuery = query.get("serachQuery");
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
 
